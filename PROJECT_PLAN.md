@@ -65,3 +65,4 @@
 - `visualizations/` - графіки для звіту.
 - `app.py` - код Streamlit.
 - `requirements.txt` - залежності проекту.
+- `README.md — головна сторінка проекту.
