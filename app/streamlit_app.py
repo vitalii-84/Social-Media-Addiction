@@ -127,7 +127,6 @@ elif page == "Аналіз гіпотез":
             color_continuous_scale="Reds"
         )
         st.plotly_chart(fig3, use_container_width=True)
-        
         st.info("**Аналітичний інсайт:** Платформи з короткими відео (TikTok, Instagram) мають найвищий показник формування звички.")
 
     with tab3:
