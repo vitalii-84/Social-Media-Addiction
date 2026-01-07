@@ -69,7 +69,9 @@ elif page == "Аналіз гіпотез":
         fig1 = px.scatter(
             df, x="Avg_Daily_Usage_Hours", y="Sleep_Hours_Per_Night",
             color="Addiction_Level", trendline="ols",
-            labels={"Avg_Daily_Usage_Hours": "Годин у мережі", "Sleep_Hours_Per_Night": "Годин сну"},
+            labels={"Avg_Daily_Usage_Hours": "Годин у мережі",
+                    "Sleep_Hours_Per_Night": "Годин сну",
+                    "Addiction_Level": "Рівень залежності"},
             color_discrete_map={"Low": "green", "Medium": "orange", "High": "red"},
             category_orders=level_order
         )
