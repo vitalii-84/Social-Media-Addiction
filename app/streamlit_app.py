@@ -172,16 +172,18 @@ elif page == "Глобальна географія":
 
     # 2. Створення інтерактивної карти світу
     st.subheader("Світова карта рівня залежності")
-    
+
     fig_map = px.choropleth(
         country_map_data,
         locations="Country",
-        locationmode="country names",
+        locationmode="country names", # Залишаємо поки так, але Plotly вже знає, що ми в курсі
         color="Addicted_Score",
         hover_name="Country",
         color_continuous_scale="YlOrRd", 
         labels={"Addicted_Score": "Сер. бал залежності"}
     )
+
+  
     
     fig_map.update_layout(
         geo=dict(
