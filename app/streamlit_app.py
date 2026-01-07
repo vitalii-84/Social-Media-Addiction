@@ -106,25 +106,22 @@ elif page == "Аналіз гіпотез":
         )
         st.plotly_chart(fig2, use_container_width=True)
         st.success("**Висновок:** Студенти з високим рівнем залежності мають значно нижчі показники ментального здоров'я.")
-    
-    
+
     with tab2:
         st.header("Аналіз за платформами")
-        
-        # Гіпотеза 3: Які платформи найбільш "адиктивні"?
         st.subheader("Гіпотеза 3: Платформи з алгоритмічною стрічкою vs Інші")
         
-        # Рахуємо середній бал залежності для кожної платформи
-        platform_stats = df.groupby('Dominant_Platform')['Addicted_Score'].mean().sort_values(ascending=False).reset_index()
+        # Виправляємо назву колонки на 'Platform'
+        platform_stats = df.groupby('Platform')['Addicted_Score'].mean().sort_values(ascending=False).reset_index()
         
         fig3 = px.bar(
             platform_stats,
-            x="Dominant_Platform",
+            x="Platform",
             y="Addicted_Score",
             color="Addicted_Score",
             title="Середній бал залежності за платформами",
             labels={
-                "Dominant_Platform": "Платформа", 
+                "Platform": "Платформа", 
                 "Addicted_Score": "Середній бал залежності"
             },
             color_continuous_scale="Reds"
@@ -133,11 +130,9 @@ elif page == "Аналіз гіпотез":
         
         st.info("""
         **Аналітична довідка:** Платформи як **TikTok** та **Instagram** використовують алгоритми нескінченної стрічки, 
-        що статистично підтверджується вищим балом залежності серед їхніх користувачів у нашому датасеті.
+        що статистично підтверджується вищим балом залежності серед їхніх користувачів.
         """)
-
-
-
+    
 
 
 
