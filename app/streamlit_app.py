@@ -6,14 +6,13 @@ import plotly.express as px
 st.set_page_config(
     page_title="Digital Health Dashboard",
     page_icon="⚕️",
-    layout="wide", # Використовуємо всю ширину екрана
+    layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # --- ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ ---
 @st.cache_data
 def load_data():
-    # Завантаження очищеного датасету
     df = pd.read_csv('data/processed/cleaned_data.csv')
     return df
 
@@ -39,7 +38,6 @@ if page == "Головна":
     впливає на наше реальне життя.
     """)
     
-    # Створюємо колонки для KPI (Key Performance Indicators)
     st.subheader("Ключові показники (Global Metrics)")
     col1, col2, col3, col4 = st.columns(4)
     
@@ -54,119 +52,84 @@ if page == "Головна":
 
     st.write("---")
     st.subheader("Попередній перегляд даних")
-    # Використовуємо новий параметр width='stretch' замість use_container_width
-    st.dataframe(df.head(10), width=None)
+    # ВИПРАВЛЕНО: width='stretch' для таблиці
+    st.dataframe(df.head(10), width='stretch')
 
 elif page == "Аналіз гіпотез":
     st.title("🧪 Глибокий аналіз гіпотез")
-    st.write("У цьому розділі ми перевіряємо статистичні припущення про вплив соцмереж на життя студентів.")
-
-    # Створюємо закладки для різних груп гіпотез
+    
     tab1, tab2, tab3 = st.tabs(["🏥 Здоров'я та Психіка", "📱 Платформи", "🤝 Соціальні зв'язки"])
-
-    # Спільний порядок категорій для візуалізацій
     level_order = {"Addiction_Level": ["Low", "Medium", "High"]}
 
     with tab1:
         st.header("Вплив на фізичний та ментальний стан")
         
-        # Гіпотеза 1: Сон vs Час у мережі
         st.subheader("Гіпотеза 1: Соцмережі та якість сну")
         fig1 = px.scatter(
-            df, 
-            x="Avg_Daily_Usage_Hours", 
-            y="Sleep_Hours_Per_Night",
-            color="Addiction_Level",
-            trendline="ols",
-            title="Зв'язок між часом у мережі та тривалістю сну",
+            df, x="Avg_Daily_Usage_Hours", y="Sleep_Hours_Per_Night",
+            color="Addiction_Level", trendline="ols",
             labels={"Avg_Daily_Usage_Hours": "Годин у мережі", "Sleep_Hours_Per_Night": "Годин сну"},
             color_discrete_map={"Low": "green", "Medium": "orange", "High": "red"},
             category_orders=level_order
         )
         st.plotly_chart(fig1, width='stretch')
-        st.success("**Висновок:** Чітка негативна кореляція. Зростання екранного часу веде до скорочення тривалості сну.")
 
-        st.write("---")
-
-        # Гіпотеза 2: Психічне здоров'я vs Addicted Score
         st.subheader("Гіпотеза 2: Залежність та ментальний стан")
         fig2 = px.box(
-            df, 
-            x="Addiction_Level", 
-            y="Mental_Health_Score",
-            color="Addiction_Level",
-            points="all",
-            title="Розподіл показників психічного здоров'я",
+            df, x="Addiction_Level", y="Mental_Health_Score",
+            color="Addiction_Level", points="all",
             labels={"Addiction_Level": "Рівень залежності", "Mental_Health_Score": "Бал ментального здоров'я"},
             color_discrete_map={"Low": "green", "Medium": "orange", "High": "red"},
             category_orders=level_order
         )
         st.plotly_chart(fig2, width='stretch')
-        st.success("**Висновок:** Студенти з високим рівнем залежності мають нижчий медіанний бал психічного здоров'я.")
 
     with tab2:
         st.header("Аналіз за платформами")
         st.subheader("Гіпотеза 3: Платформи з алгоритмічною стрічкою vs Інші")
         
-        # Агрегація даних за платформою
         platform_stats = df.groupby('Most_Used_Platform')['Addicted_Score'].mean().sort_values(ascending=False).reset_index()
         
         fig3 = px.bar(
-            platform_stats,
-            x="Most_Used_Platform",
-            y="Addicted_Score",
+            platform_stats, x="Most_Used_Platform", y="Addicted_Score",
             color="Addicted_Score",
-            title="Середній бал залежності за платформами",
             labels={"Most_Used_Platform": "Основна платформа", "Addicted_Score": "Середній бал залежності"},
             color_continuous_scale="Reds"
         )
         st.plotly_chart(fig3, width='stretch')
-        st.info("**Інсайт:** Платформи з нескінченною прокруткою (TikTok/Instagram) лідують за рівнем адиктивності.")
 
     with tab3:
         st.header("Соціальні зв'язки та навчання")
         
-        # Гіпотеза 4 & 6: Вплив статусу стосунків
         st.subheader("Гіпотеза 4 та 6: Статус стосунків")
         rel_stats = df.groupby('Relationship_Status')['Addicted_Score'].mean().sort_values().reset_index()
         
         fig4 = px.bar(
-            rel_stats,
-            x="Addicted_Score",
-            y="Relationship_Status",
+            rel_stats, x="Addicted_Score", y="Relationship_Status",
             orientation='h',
-            title="Середня залежність за статусом стосунків",
             labels={"Relationship_Status": "Статус стосунків", "Addicted_Score": "Середній бал залежності"},
-            color="Addicted_Score",
-            color_continuous_scale="Viridis"
+            color="Addicted_Score", color_continuous_scale="Viridis"
         )
         st.plotly_chart(fig4, width='stretch')
         
         st.write("---")
         
-        # Гіпотеза 5: Вплив на навчання
         st.subheader("Гіпотеза 5: Вплив залежності на успішність")
-        
-        # ВИПРАВЛЕНО: Використовуємо Affects_Academic_Performance_Numeric згідно зі списком колонок
         fig5 = px.box(
-            df,
-            x="Addiction_Level",
-            y="Affects_Academic_Performance_Numeric",
+            df, x="Addiction_Level", y="Affects_Academic_Performance_Numeric",
             color="Addiction_Level",
-            title="Зв'язок рівня залежності та успішності",
             labels={
                 "Addiction_Level": "Рівень залежності",
-                "Affects_Academic_Performance_Numeric": "Вплив на навчання (0 - негативний, 1 - позитивний/нейтральний)"
+                "Affects_Academic_Performance_Numeric": "Вплив на успішність (числовий)"
             },
             color_discrete_map={"Low": "green", "Medium": "orange", "High": "red"},
             category_orders=level_order
         )
         st.plotly_chart(fig5, width='stretch')
-        st.success("**Вердикт:** Гіпотеза підтверджена — висока залежність негативно корелює з академічними показниками.")
 
 elif page == "Глобальна географія":
     st.title("🌍 Географічний розподіл")
-    st.info("Розділ з інтерактивною картою світу та регіональними інсайтами.")
+    st.info("Розділ з інтерактивною картою світу.")
 
 elif page == "ML Діагностика":
     st.title("🤖 Машинне навчання: Перевір себе")
