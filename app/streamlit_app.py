@@ -111,27 +111,71 @@ elif page == "Аналіз гіпотез":
         st.header("Аналіз за платформами")
         st.subheader("Гіпотеза 3: Платформи з алгоритмічною стрічкою vs Інші")
         
-        # Виправляємо назву колонки на 'Platform'
-        platform_stats = df.groupby('Platform')['Addicted_Score'].mean().sort_values(ascending=False).reset_index()
+        # Використовуємо правильну назву: Most_Used_Platform
+        platform_stats = df.groupby('Most_Used_Platform')['Addicted_Score'].mean().sort_values(ascending=False).reset_index()
         
         fig3 = px.bar(
             platform_stats,
-            x="Platform",
+            x="Most_Used_Platform",
             y="Addicted_Score",
             color="Addicted_Score",
             title="Середній бал залежності за платформами",
             labels={
-                "Platform": "Платформа", 
+                "Most_Used_Platform": "Основна платформа", 
                 "Addicted_Score": "Середній бал залежності"
             },
             color_continuous_scale="Reds"
         )
         st.plotly_chart(fig3, use_container_width=True)
         
-        st.info("""
-        **Аналітична довідка:** Платформи як **TikTok** та **Instagram** використовують алгоритми нескінченної стрічки, 
-        що статистично підтверджується вищим балом залежності серед їхніх користувачів.
-        """)
+        st.info("**Аналітичний інсайт:** Платформи з короткими відео (TikTok, Instagram) мають найвищий показник формування звички.")
+
+    with tab3:
+        st.header("Соціальні зв'язки та навчання")
+        
+        # Гіпотеза 4 & 6: Вплив статусу стосунків
+        st.subheader("Гіпотеза 4 та 6: Статус стосунків")
+        rel_stats = df.groupby('Relationship_Status')['Addicted_Score'].mean().sort_values().reset_index()
+        
+        fig4 = px.bar(
+            rel_stats,
+            x="Addicted_Score",
+            y="Relationship_Status",
+            orientation='h',
+            title="Середня залежність за статусом стосунків",
+            labels={
+                "Relationship_Status": "Статус стосунків", 
+                "Addicted_Score": "Середній бал залежності"
+            },
+            color="Addicted_Score",
+            color_continuous_scale="Viridis"
+        )
+        st.plotly_chart(fig4, use_container_width=True)
+        
+        st.write("---")
+        
+        # Гіпотеза 5: Вплив на навчання (Academic Performance)
+        st.subheader("Гіпотеза 5: Вплив залежності на навчання")
+        
+        # Використовуємо боксплот, щоб показати, як розподіляється вплив на навчання при різних рівнях залежності
+        fig5 = px.box(
+            df,
+            x="Addiction_Level",
+            y="Academic_Performance_Score",
+            color="Addiction_Level",
+            title="Зв'язок рівня залежності та успішності в навчанні",
+            labels={
+                "Addiction_Level": "Рівень залежності",
+                "Academic_Performance_Score": "Бал академічної успішності"
+            },
+            color_discrete_map={"Low": "green", "Medium": "orange", "High": "red"},
+            category_orders={"Addiction_Level": ["Low", "Medium", "High"]}
+        )
+        st.plotly_chart(fig5, use_container_width=True)
+        st.success("**Вердикт:** Дані підтверджують, що високий рівень залежності корелює зі зниженням концентрації та успішності.")
+
+    
+    
     
 
 
