@@ -241,7 +241,7 @@ elif page == "ML Діагностика":
         
         with col_in1:
             usage = st.slider("Скільки годин на день ви проводите в соцмережах?", 0.0, 24.0, 5.0, step=0.25)
-            sleep = st.slider("Скільки годин ви зазвичай спите?", 0.0, 12.0, 7.0)
+            sleep = st.slider("Скільки годин ви зазвичай спите?", 0.0, 12.0, 7.0, step=0.25)
         
         with col_in2:
             mental = st.select_slider("Оцініть свій ментальний стан (від 1 до 10)", options=list(range(1, 11)), value=5)
