@@ -6,3 +6,4 @@ scikit-learn
 pycountry-convert
 matplotlib
 seaborn
+statsmodels
