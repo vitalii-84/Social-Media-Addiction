@@ -97,6 +97,10 @@ elif page == "Аналіз гіпотез":
             color="Addiction_Level",
             points="all",
             title="Розподіл показників психічного здоров'я за рівнем залежності",
+            labels={
+                "Addiction_Level": "Рівень залежності", 
+                "Mental_Health_Score": "Бал ментального здоров'я"
+            },
             color_discrete_map={"Low": "green", "Medium": "orange", "High": "red"},
             category_orders=level_order # Додано порядок!
         )
