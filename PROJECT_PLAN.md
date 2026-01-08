@@ -38,19 +38,15 @@ students-social-media-addiction/
 │   └── processed/          # Очищений та збагачений набір (cleaned_data.csv)
 │
 ├── notebooks/              # Покрокове дослідження в DataLab
-│   ├── 01_data_overview.ipynb
-│   ├── 02_data_cleaning.ipynb
-│   ├── 03_eda.ipynb
-│   ├── 04_hypothesis_testing.ipynb
-│   └── 05_clustering.ipynb
+│   └── full_analysis.ipynb
 │
 ├── app/
 │   └── streamlit_app.py     # Основний код інтерактивного додатка
 │
-├── visuals/                # Статичні графіки для звіту та документації
-│   ├── correlation_heatmap.png
-│   ├── usage_vs_sleep.png
-│   └── addiction_vs_mental_health.png
+├── visuals/                # Статичні графіки для звіту та документації (поки що пуста папка)
+│   ├── 
+│   ├── 
+│   └── 
 │
 ├── requirements.txt        # Перелік залежностей для середовища Streamlit
 ├── README.md               # Презентація проєкту
