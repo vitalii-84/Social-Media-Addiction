@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import plotly.express as px  
+import folium
+from streamlit_folium import st_folium
+import numpy as np
 
 # --- НАЛАШТУВАННЯ СТОРІНКИ ---
 st.set_page_config(
@@ -323,6 +326,83 @@ elif page == "Глобальна географія":
     st.write("---")
 
 
+
+
+    
+    # import folium
+    # from streamlit_folium import st_folium
+    # import numpy as np
+
+    st.write("---")
+    st.subheader("🌍 Чиста карта регіональних лідерів")
+    st.write("Використано підкладку без тексту, щоб фокусувати увагу на даних.")
+
+    # 1. Словник логотипів (надійні посилання)
+    platform_logos = {
+        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
+        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
+    }
+
+    # Координати центрів (трохи підправлені для кращого вигляду)
+    region_coords = {
+        "Europe": [50, 15],
+        "Asia": [35, 90],
+        "North America": [45, -100],
+        "South America": [-15, -60],
+        "Oceania": [-25, 135],
+        "Africa": [5, 20]
+    }
+
+    # 2. Дані
+    region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
+    top_reg = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
+
+    # 3. Створення карти БЕЗ ТЕКСТУ (PositronNoLabels)
+    m = folium.Map(
+        location=[20, 0], 
+        zoom_start=2, 
+        tiles='https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+        attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    )
+
+    for _, row in top_reg.iterrows():
+        region = row['Region']
+        count = row['Count']
+        platform = row['Most_Used_Platform']
+        
+        if region in region_coords:
+            # НОВА ФОРМУЛА РОЗМІРУ:
+            # Базовий розмір 45px + приріст на основі кореня від кількості
+            # Це зробить малі значення (як у Пд. Америці) помітними
+            icon_size = 40 + (np.sqrt(count) * 4) 
+            
+            logo_url = platform_logos.get(platform, "")
+            
+            if logo_url:
+                icon = folium.CustomIcon(logo_url, icon_size=(icon_size, icon_size))
+                
+                # Додаємо маркер
+                folium.Marker(
+                    location=region_coords[region],
+                    icon=icon,
+                    tooltip=f"<b>{region}</b><br>Платформа: {platform}<br>Кількість: {count}"
+                ).add_to(m)
+
+    # Відображення
+    st_folium(m, width="100%", height=550)
+
+    st.success("✅ Карта очищена від сторонніх написів. Тепер іконки — головний акцент.")
+    
+   
+
+
+
+
+
+
+
+    
     
     st.subheader("🏆 Регіональні лідери платформ")
     st.write("Яка платформа домінує на кожному континенті?")
@@ -516,72 +596,6 @@ elif page == "Глобальна географія":
 
     
 
-    import folium
-    from streamlit_folium import st_folium
-    import numpy as np
-
-    st.write("---")
-    st.subheader("🌍 Чиста карта регіональних лідерів")
-    st.write("Використано підкладку без тексту, щоб фокусувати увагу на даних.")
-
-    # 1. Словник логотипів (надійні посилання)
-    platform_logos = {
-        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
-        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
-    }
-
-    # Координати центрів (трохи підправлені для кращого вигляду)
-    region_coords = {
-        "Europe": [50, 15],
-        "Asia": [35, 90],
-        "North America": [45, -100],
-        "South America": [-15, -60],
-        "Oceania": [-25, 135],
-        "Africa": [5, 20]
-    }
-
-    # 2. Дані
-    region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
-    top_reg = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
-
-    # 3. Створення карти БЕЗ ТЕКСТУ (PositronNoLabels)
-    m = folium.Map(
-        location=[20, 0], 
-        zoom_start=2, 
-        tiles='https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-        attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-    )
-
-    for _, row in top_reg.iterrows():
-        region = row['Region']
-        count = row['Count']
-        platform = row['Most_Used_Platform']
-        
-        if region in region_coords:
-            # НОВА ФОРМУЛА РОЗМІРУ:
-            # Базовий розмір 45px + приріст на основі кореня від кількості
-            # Це зробить малі значення (як у Пд. Америці) помітними
-            icon_size = 40 + (np.sqrt(count) * 4) 
-            
-            logo_url = platform_logos.get(platform, "")
-            
-            if logo_url:
-                icon = folium.CustomIcon(logo_url, icon_size=(icon_size, icon_size))
-                
-                # Додаємо маркер
-                folium.Marker(
-                    location=region_coords[region],
-                    icon=icon,
-                    tooltip=f"<b>{region}</b><br>Платформа: {platform}<br>Кількість: {count}"
-                ).add_to(m)
-
-    # Відображення
-    st_folium(m, width="100%", height=550)
-
-    st.success("✅ Карта очищена від сторонніх написів. Тепер іконки — головний акцент.")
-    
-   
 
     
 
