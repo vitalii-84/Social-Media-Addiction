@@ -467,6 +467,53 @@ elif page == "Глобальна географія":
 
 
 
+
+
+
+
+
+
+    st.write("---")
+    st.subheader("🌐 Регіональний огляд (Custom Icons)")
+    st.write("Співвідношення макрорегіонів та їхніх цифрових фаворитів.")
+
+    # 1. Словник логотипів (надійні посилання)
+    platform_logos = {
+        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+        "TikTok": "https://upload.wikimedia.org/wikipedia/commons/a/a2/TikTok_Icon.svg",
+        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
+    }
+
+    # 2. Підготовка даних
+    region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
+    top_platforms = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
+    # Сортуємо за кількістю, як на макеті
+    regions_list = top_platforms.sort_values('Count', ascending=False).to_dict('records')
+
+    # 3. Побудова списку в стилі Custom Icons
+    for reg in regions_list:
+        # Створюємо 3 колонки: Іконка Землі, Назва регіону, Логотип платформи
+        col_emoji, col_name, col_logo, col_stat = st.columns([1, 4, 1, 3])
+        
+        with col_emoji:
+            st.markdown("### 🌍") # Іконка планети
+            
+        with col_name:
+            st.markdown(f"#### {reg['Region']}")
+            
+        with col_logo:
+            logo_url = platform_logos.get(reg['Most_Used_Platform'], "")
+            if logo_url:
+                st.image(logo_url, width=35)
+                
+        with col_stat:
+            # Додаємо прогрес-бар для наочності (опціонально)
+            st.write(f"**{reg['Count']}** студ.")
+            st.progress(min(reg['Count'] / 120, 1.0)) # 120 - це наш максимум для масштабу
+
+    st.write("---")
+
+
     
 
     
