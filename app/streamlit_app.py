@@ -342,6 +342,58 @@ elif page == "Глобальна географія":
             st.caption(f"Користувачів: {reg['User_Count']}")
 
     st.write("---")
+    
+    
+    
+    
+    st.write("---")
+    st.subheader("🏆 Регіональні лідери платформ")
+    st.write("Яка платформа домінує на кожному континенті?")
+
+    # 1. Словник посилань на логотипи та іконки континентів
+    # (Ви можете замінити ці посилання на власні іконки)
+    icons = {
+        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
+        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
+        "Europe": "https://img.icons8.com/ios-filled/100/ffffff/europe.png",
+        "Asia": "https://img.icons8.com/ios-filled/100/ffffff/asia.png",
+        "North America": "https://img.icons8.com/ios-filled/100/ffffff/north-america.png",
+        "South America": "https://img.icons8.com/ios-filled/100/ffffff/south-america.png",
+        "Africa": "https://img.icons8.com/ios-filled/100/ffffff/africa.png",
+        "Oceania": "https://img.icons8.com/ios-filled/100/ffffff/australia.png"
+    }
+
+    # 2. Підготовка даних
+    region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
+    top_platforms = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
+    regions_list = top_platforms.sort_values('Count', ascending=False).to_dict('records')
+
+    # 3. Побудова карток
+    col1, col2, col3 = st.columns(3)
+    col4, col5, col6 = st.columns(3)
+    all_cols = [col1, col2, col3, col4, col5, col6]
+
+    for idx, reg in enumerate(regions_list):
+        with all_cols[idx]:
+            # Контейнер для візуальної картки
+            with st.container(border=True):
+                # Відображаємо іконку континенту та назву
+                st.image(icons.get(reg['Region'], ""), width=50)
+                st.markdown(f"### {reg['Region']}")
+                
+                # Відображаємо логотип соцмережі
+                st.image(icons.get(reg['Most_Used_Platform'], ""), width=40)
+                st.write(f"**{reg['Most_Used_Platform']}**")
+                
+                st.caption(f"Користувачів: {reg['Count']}")
+
+    st.write("---")
+
+
+
+
+    
 
     # Візуалізація "Ядро платформ" (Теплова карта)
     st.subheader("📊 Матриця популярності: Платформи vs Регіони")
