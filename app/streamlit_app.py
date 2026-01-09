@@ -47,7 +47,7 @@ if page == "Головна":
     with col1:
         st.metric("Респондентів", len(df))
     with col2:
-        st.metric("Середній час в соцмережах", f"{df['Avg_Daily_Usage_Hours'].mean():.1f} год")
+        st.metric("Середній час в соцмережах", f"{df['Avg_Daily_Usage_Hours'].mean():.1f} год/добу")
     with col3:
         st.metric("Рівень залежності", f"{df['Addicted_Score'].mean():.1f}/з 10")
     with col4:
