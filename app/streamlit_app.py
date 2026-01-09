@@ -105,6 +105,71 @@ elif page == "Аналіз гіпотез":
         )
         st.plotly_chart(fig3, width='stretch')
         st.info("**Аналітичний інсайт:** Платформи, що використовують алгоритми 'нескінченної стрічки' (TikTok, Instagram), мають найвищий статистичний зв'язок із балом залежності.")
+        
+        
+        st.header("Аналіз за типами контенту")
+        st.write("Ми згрупували платформи за їхньою основною функцією, щоб знайти 'дофамінові пастки'.")
+
+        # 1. Скаттер-плот: Час vs Залежність
+        st.subheader("⚡️ Співвідношення часу та адиктивності")
+        
+        type_stats = df.groupby('Platform_Type').agg({
+            'Addicted_Score': 'mean',
+            'Avg_Daily_Usage_Hours': 'mean',
+            'Student_ID': 'count'
+        }).reset_index()
+
+        fig_scatter = px.scatter(
+            type_stats, 
+            x="Avg_Daily_Usage_Hours", 
+            y="Addicted_Score",
+            size="Student_ID", 
+            color="Platform_Type",
+            text="Platform_Type",
+            labels={"Avg_Daily_Usage_Hours": "Сер. час використання (год)", "Addicted_Score": "Сер. бал залежності"},
+            title="Де виникає найшвидша залежність?",
+            height=500
+        )
+        fig_scatter.update_traces(textposition='top center')
+        st.plotly_chart(fig_scatter, use_container_width=True)
+        st.info("**Інсайт:** Категорія 'Entertain-Scroll' (TikTok/Instagram) має найвищу залежність, хоча в месенджерах проводять більше часу. Це доводить агресивність алгоритмів.")
+
+        st.write("---")
+
+        # 2. Гендерний розподіл за категоріями
+        st.subheader("🚻 Хто і що обирає: Гендерний аспект")
+        
+        gender_data = df.groupby(['Platform_Type', 'Gender']).size().reset_index(name='Count')
+        
+        fig_gender = px.bar(
+            gender_data, 
+            x="Platform_Type", 
+            y="Count", 
+            color="Gender",
+            barmode="group",
+            title="Розподіл інтересів між чоловіками та жінками",
+            color_discrete_map={"Male": "#1f77b4", "Female": "#e377c2"}
+        )
+        st.plotly_chart(fig_gender, use_container_width=True)
+        st.warning("**Гендерний розрив:** Хлопці значно більше схильні до використання 'Social-Network' (новинних стрічок), тоді як дівчата домінують у розважальному контенті.")
+
+        st.write("---")
+
+        # 3. Деталізація за конкретними платформами (Bar Chart)
+        st.subheader("🔍 Деталізація за платформами")
+        platform_stats = df.groupby(['Platform_Type', 'Most_Used_Platform'])['Addicted_Score'].mean().reset_index()
+        platform_stats = platform_stats.sort_values('Addicted_Score', ascending=False)
+
+        fig_platforms = px.bar(
+            platform_stats,
+            x="Most_Used_Platform",
+            y="Addicted_Score",
+            color="Platform_Type",
+            title="Середня залежність за кожною платформою",
+            labels={"Most_Used_Platform": "Платформа", "Addicted_Score": "Бал адикції"}
+        )
+        st.plotly_chart(fig_platforms, use_container_width=True)
+    
 
     with tab3:
         st.header("Соціальні зв'язки та навчання")
