@@ -167,6 +167,8 @@ elif page == "Аналіз гіпотез":
             y="Count", 
             color="Gender",
             barmode="group",
+            labels={"Platform_Type": "Тип платформи", 
+                    "Count": "Кількість"},
             title="Розподіл інтересів між чоловіками та жінками",
             color_discrete_map={"Male": "#1f77b4", "Female": "#e377c2"}
         )
