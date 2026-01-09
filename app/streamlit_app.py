@@ -111,7 +111,7 @@ elif page == "Аналіз гіпотез":
         st.write("Ми згрупували платформи за їхньою основною функцією, щоб знайти 'дофамінові пастки'.")
 
         # 1. Скаттер-плот: Час vs Залежність
-        st.subheader("⚡️ Співвідношення часу та адиктивності")
+        st.subheader("⚡️ Співвідношення часу в мережі та адиктивності")
         
         type_stats = df.groupby('Platform_Type').agg({
             'Addicted_Score': 'mean',
@@ -125,11 +125,14 @@ elif page == "Аналіз гіпотез":
             y="Addicted_Score",
             size="Student_ID", 
             color="Platform_Type",
-            text="Platform_Type",
+            text="Platform_Type", # Підписи прямо на графіку
             labels={"Avg_Daily_Usage_Hours": "Сер. час використання (год)", "Addicted_Score": "Сер. бал залежності"},
             title="Де виникає найшвидша залежність?",
             height=500
         )
+        # ПРИБИРАЄМО ЛЕГЕНДУ ТУТ:
+        fig_scatter.update_layout(showlegend=False)
+        # Налаштовуємо положення тексту, щоб він не налізав на бульбашки
         fig_scatter.update_traces(textposition='top center')
         st.plotly_chart(fig_scatter, use_container_width=True)
         st.info("**Інсайт:** Категорія 'Entertain-Scroll' (TikTok/Instagram) має найвищу залежність, хоча в месенджерах проводять більше часу. Це доводить агресивність алгоритмів.")
