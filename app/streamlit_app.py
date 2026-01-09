@@ -393,73 +393,67 @@ elif page == "Глобальна географія":
 
 
 
-    st.subheader("🌍 Карта регіональних чемпіонів")
-    st.write("Логотип показує найпопулярнішу платформу в кожному макрорегіоні.")
+    st.write("---")
+    st.subheader("🌍 Карта регіональних лідерів")
+    st.write("Кольори відображають макрорегіони, а підписи — найпопулярнішу платформу.")
 
-    # 1. Створюємо координати для центрів регіонів
+    # 1. Підготовка даних (Ваші результати Блоку 8)
+    # Створюємо словник координат центрів для підписів
     region_centers = {
-        "Europe": {"lat": 50, "lon": 15},
-        "Asia": {"lat": 35, "lon": 90},
-        "North America": {"lat": 40, "lon": -100},
+        "Europe": {"lat": 48, "lon": 15},
+        "Asia": {"lat": 30, "lon": 100},
+        "North America": {"lat": 45, "lon": -105},
         "South America": {"lat": -15, "lon": -60},
-        "Africa": {"lat": 0, "lon": 20},
-        "Oceania": {"lat": -25, "lon": 135}
+        "Africa": {"lat": 5, "lon": 20},
+        "Oceania": {"lat": -25, "lon": 140}
     }
 
-    # 2. Посилання на логотипи
-    platform_icons = {
-        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
-        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
-    }
-
-    # 3. Підготовка даних
+    # Знаходимо лідерів
     reg_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
     top_reg = reg_counts.loc[reg_counts.groupby('Region')['Count'].idxmax()].copy()
     
-    # Додаємо координати та іконки до таблиці
+    # Додаємо координати для відображення назв
     top_reg['lat'] = top_reg['Region'].map(lambda x: region_centers[x]['lat'])
     top_reg['lon'] = top_reg['Region'].map(lambda x: region_centers[x]['lon'])
-    top_reg['icon'] = top_reg['Most_Used_Platform'].map(platform_icons)
+    
+    # Додаємо емодзі для візуалізації замість логотипів (це працює стабільно всюди)
+    platform_emojis = {
+        "Instagram": "📸 Instagram",
+        "TikTok": "🎵 TikTok",
+        "Facebook": "🔵 Facebook"
+    }
+    top_reg['Label'] = top_reg['Most_Used_Platform'].map(platform_emojis)
 
-    # 4. Побудова карти
-    # Фоновий шар: зафарбовуємо країни за регіоном
-    fig_leaders = px.choropleth(
-        df, 
-        locations="Country", 
+    # 2. Побудова карти
+    # Основний шар - кольори регіонів
+    fig_map = px.choropleth(
+        df,
+        locations="Country",
         locationmode="country names",
         color="Region",
         color_discrete_sequence=px.colors.qualitative.Pastel,
-        hover_data={"Country": False} # Вимикаємо зайвий ховер
+        projection="natural earth",
+        hover_data={"Country": True, "Region": False}
     )
 
-    # Шар з логотипами (використовуємо символи/маркери)
-    for i, row in top_reg.iterrows():
-        fig_leaders.add_layout_image(
-            dict(
-                source=row['icon'],
-                xref="geo", yref="geo",
-                x=row['lon'], y=row['lat'],
-                sizex=20, sizey=20, # Розмір логотипа на карті
-                xanchor="center", yanchor="middle"
-            )
-        )
-
-    fig_leaders.update_geos(
-        projection_type="natural earth",
-        showcountries=True,
-        countrycolor="white"
-    )
-
-    fig_leaders.update_layout(
-        height=600,
-        margin={"r":0,"t":0,"l":0,"b":0},
+    # Додаємо шар з підписами платформ
+    fig_map.add_scattergeo(
+        lat=top_reg['lat'],
+        lon=top_reg['lon'],
+        text=top_reg['Label'],
+        mode='text',
+        textfont=dict(size=14, color="black", family="Arial Black"),
         showlegend=False
     )
 
-    st.plotly_chart(fig_leaders, use_container_width=True)
-    st.info("**Інсайт:** Карта демонструє тотальне домінування Instagram, окрім Південної Америки (TikTok) та Африки (Facebook).")
+    fig_map.update_layout(
+        height=600,
+        margin={"r":0,"t":0,"l":0,"b":0},
+        geo=dict(showcountries=True, countrycolor="white")
+    )
 
+    st.plotly_chart(fig_map, use_container_width=True)
+    st.info("**Географічний розподіл:** Instagram домінує в більшості регіонів, тоді як TikTok та Facebook утримують лідерство в Південній Америці та Африці відповідно.")
 
 
 
