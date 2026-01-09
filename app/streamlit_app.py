@@ -347,52 +347,57 @@ elif page == "Глобальна географія":
     
     
     st.write("---")
+    st.write("---")
     st.subheader("🏆 Регіональні лідери платформ")
     st.write("Яка платформа домінує на кожному континенті?")
 
-    # 1. Повний словник логотипів усіх платформ з датасету
+    # Вставляємо CSS для вирівнювання висоти карток
+    st.markdown("""
+        <style>
+        [data-testid="stVerticalBlockBorderControl"] {
+            height: 100%;
+            min-height: 200px; /* Мінімальна висота для стабільності */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # 1. Словник логотипів (використовуємо надійні посилання)
     platform_icons = {
         "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg", # Покращена іконка
+        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
         "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
         "WhatsApp": "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
         "YouTube": "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
-        "Twitter": "https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg", # Логотип X (Twitter)
-        "LinkedIn": "https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg", # Покращена іконка
-        "Snapchat": "https://upload.wikimedia.org/wikipedia/en/a/ad/Snapchat_logo.svg",
-        "WeChat": "https://upload.wikimedia.org/wikipedia/commons/7/73/WeChat_logo.svg",
-        "LINE": "https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg",
-        "KakaoTalk": "https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg",
-        "VKontakte": "https://upload.wikimedia.org/wikipedia/commons/f/f3/VK_Logo.svg"
+        "Twitter": "https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg",
+        "LinkedIn": "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
     }
 
-    # 2. Підготовка даних
+    # 2. Дані
     region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
     top_platforms = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
     regions_list = top_platforms.sort_values('Count', ascending=False).to_dict('records')
 
-    # 3. Створення сітки карток
-    col1, col2, col3 = st.columns(3)
-    col4, col5, col6 = st.columns(3)
-    all_cols = [col1, col2, col3, col4, col5, col6]
-
+    # 3. Вивід у сітку
+    # Використовуємо цикл для створення колонок динамічно, щоб вони краще адаптувалися
+    cols = st.columns(3)
+    
     for idx, reg in enumerate(regions_list):
-        if idx < len(all_cols):
-            with all_cols[idx]:
-                with st.container(border=True):
-                    # Назва регіону
-                    st.markdown(f"### 📍 {reg['Region']}")
-                    
-                    # Логотип платформи
-                    platform_name = reg['Most_Used_Platform']
-                    logo_url = platform_icons.get(platform_name, "")
-                    
-                    if logo_url:
-                        st.image(logo_url, width=45)
-                    
-                    # Назва та статистика
-                    st.write(f"**{platform_name}**")
-                    st.caption(f"Кількість відповідей: {reg['Count']}")
+        with cols[idx % 3]:
+            with st.container(border=True):
+                st.markdown(f"#### 📍 {reg['Region']}")
+                
+                # Обгортка для логотипу, щоб він не займав забагато місця
+                logo_url = platform_icons.get(reg['Most_Used_Platform'], "")
+                if logo_url:
+                    st.image(logo_url, width=50)
+                
+                st.write(f"**{reg['Most_Used_Platform']}**")
+                st.caption(f"Відповідей: {reg['Count']}")
+
+    st.write("---")
 
     st.write("---")
 
