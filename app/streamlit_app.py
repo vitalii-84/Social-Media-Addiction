@@ -174,23 +174,7 @@ elif page == "Аналіз гіпотез":
         st.warning("**Гендерний розрив:** Хлопці значно більше схильні до використання 'Social-Network' (новинних стрічок), тоді як дівчата домінують у розважальному контенті.\n\n"
                    "👉 Це вказує на різницю в цілях: хлопці йдуть за інформацією, дівчата — за візуальним контентом."
         )
-        st.write("---")
-
         
-        # 3. Деталізація за конкретними платформами (Bar Chart)
-        st.subheader("🔍 Деталізація за платформами")
-        platform_stats = df.groupby(['Platform_Type', 'Most_Used_Platform'])['Addicted_Score'].mean().reset_index()
-        platform_stats = platform_stats.sort_values('Addicted_Score', ascending=False)
-
-        fig_platforms = px.bar(
-            platform_stats,
-            x="Most_Used_Platform",
-            y="Addicted_Score",
-            color="Platform_Type",
-            title="Середня залежність за кожною платформою",
-            labels={"Most_Used_Platform": "Платформа", "Addicted_Score": "Бал адикції"}
-        )
-        st.plotly_chart(fig_platforms, use_container_width=True)
     
 
     with tab3:
