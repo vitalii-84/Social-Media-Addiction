@@ -319,6 +319,50 @@ elif page == "Глобальна географія":
     **Вердикт:** Гіпотеза 7 підтверджена. Регіони з високою концентрацією технологічних хабів 
     (зокрема Північна Америка) демонструють вищі показники адиктивності порівняно з Європою.
     """)
+    
+    st.write("---")
+
+
+    
+    st.subheader("🏆 Регіональні лідери платформ")
+    st.write("Яка платформа домінує на кожному континенті?")
+
+    # Готуємо дані (Варіант А з вашого аналізу)
+    region_platform_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='User_Count')
+    top_platform_per_region = region_platform_counts.loc[region_platform_counts.groupby('Region')['User_Count'].idxmax()]
+    
+    # Створюємо колонки для карток (по 3 в ряд)
+    rows = [st.columns(3), st.columns(3)]
+    regions = top_platform_per_region.sort_values('User_Count', ascending=False).to_dict('records')
+
+    for idx, reg in enumerate(regions):
+        col = rows[idx // 3][idx % 3]
+        with col:
+            st.metric(label=f"📍 {reg['Region']}", value=reg['Most_Used_Platform'])
+            st.caption(f"Користувачів: {reg['User_Count']}")
+
+    st.write("---")
+
+    # Візуалізація "Ядро платформ" (Теплова карта)
+    st.subheader("📊 Матриця популярності: Платформи vs Регіони")
+    
+    pivot_data = df.pivot_table(index='Most_Used_Platform', 
+                                columns='Region', 
+                                values='Student_ID', 
+                                aggfunc='count', 
+                                fill_value=0)
+
+    fig_heat = px.imshow(
+        pivot_data,
+        labels=dict(x="Регіон", y="Платформа", color="Кількість"),
+        x=pivot_data.columns,
+        y=pivot_data.index,
+        color_continuous_scale="Viridis",
+        title="Де зосереджена аудиторія кожної мережі?"
+    )
+    st.plotly_chart(fig_heat, use_container_width=True)
+    
+    st.info("**Географічний інсайт:** Європа виступає головним хабом для більшості мереж, тоді як Азія демонструє унікальність через високу популярність локальних месенджерів (WeChat, LINE, KakaoTalk).")
 
 
 
