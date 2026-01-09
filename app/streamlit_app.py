@@ -402,17 +402,11 @@ elif page == "Глобальна географія":
     # 1. Готуємо дані (агрегуємо кількість)
     bubble_data = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='User_Count')
 
-
-
     # --- НОВИЙ БЛОК: Сортування категорій ---
     # Створюємо відсортовані списки назв
     sorted_platforms = sorted(bubble_data['Most_Used_Platform'].unique())
     sorted_regions = sorted(bubble_data['Region'].unique())
     # ----------------------------------------
-
-
-
-
     
     # 2. Будуємо категоріальний Bubble Chart
     fig_bubble = px.scatter(
@@ -427,6 +421,11 @@ elif page == "Глобальна географія":
             "Region": "Регіон світу", 
             "Most_Used_Platform": "Соціальна мережа",
             "User_Count": "Кількість"
+        },
+        # ПРИМУСОВЕ СОРТУВАННЯ ТУТ:
+        category_orders={
+            "Most_Used_Platform": sorted_platforms,
+            "Region": sorted_regions
         },
         color_continuous_scale="Viridis",
         height=600
