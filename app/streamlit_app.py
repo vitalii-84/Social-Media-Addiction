@@ -518,61 +518,68 @@ elif page == "Глобальна географія":
 
     import folium
     from streamlit_folium import st_folium
+    import numpy as np
 
     st.write("---")
-    st.subheader("🌍 Інтерактивна карта лідерів (Option 1)")
-    st.write("Розмір логотипу залежить від кількості користувачів у регіоні.")
+    st.subheader("🌍 Чиста карта регіональних лідерів")
+    st.write("Використано підкладку без тексту, щоб фокусувати увагу на даних.")
 
-    # 1. Дані центрів регіонів та посилання на логотипи
-    region_data = {
-        "Europe": {"coords": [52, 18], "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"},
-        "Asia": {"coords": [35, 95], "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"},
-        "North America": {"coords": [45, -100], "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"},
-        "South America": {"coords": [-15, -60], "logo": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"},
-        "Oceania": {"coords": [-25, 135], "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"},
-        "Africa": {"coords": [2, 20], "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"}
+    # 1. Словник логотипів (надійні посилання)
+    platform_logos = {
+        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
+        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
     }
 
-    # 2. Отримуємо актуальні дані з вашого аналізу (Блок 8)
+    # Координати центрів (трохи підправлені для кращого вигляду)
+    region_coords = {
+        "Europe": [50, 15],
+        "Asia": [35, 90],
+        "North America": [45, -100],
+        "South America": [-15, -60],
+        "Oceania": [-25, 135],
+        "Africa": [5, 20]
+    }
+
+    # 2. Дані
     region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
     top_reg = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
-    
-    # Створюємо базову карту
-    m = folium.Map(location=[20, 10], zoom_start=2, tiles="CartoDB positron")
 
-    # 3. Додаємо логотипи на карту
+    # 3. Створення карти БЕЗ ТЕКСТУ (PositronNoLabels)
+    m = folium.Map(
+        location=[20, 0], 
+        zoom_start=2, 
+        tiles='https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+        attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    )
+
     for _, row in top_reg.iterrows():
         region = row['Region']
         count = row['Count']
         platform = row['Most_Used_Platform']
         
-        if region in region_data:
-            coords = region_data[region]['coords']
-            logo_url = region_data[region]['logo']
+        if region in region_coords:
+            # НОВА ФОРМУЛА РОЗМІРУ:
+            # Базовий розмір 45px + приріст на основі кореня від кількості
+            # Це зробить малі значення (як у Пд. Америці) помітними
+            icon_size = 40 + (np.sqrt(count) * 4) 
             
-            # Розрахунок розміру логотипу (масштабування)
-            # Базовий розмір 30px + бонус за кількість (макс ~80px)
-            icon_size = 30 + (min(count / 120, 1.0) * 50)
+            logo_url = platform_logos.get(platform, "")
             
-            # Створення кастомної іконки
-            icon = folium.CustomIcon(
-                logo_url,
-                icon_size=(icon_size, icon_size)
-            )
-            
-            # Додаємо маркер з логотипом та спливаючою підказкою
-            folium.Marker(
-                location=coords,
-                icon=icon,
-                tooltip=f"<b>{region}</b><br>Лідер: {platform}<br>Користувачів: {count}"
-            ).add_to(m)
+            if logo_url:
+                icon = folium.CustomIcon(logo_url, icon_size=(icon_size, icon_size))
+                
+                # Додаємо маркер
+                folium.Marker(
+                    location=region_coords[region],
+                    icon=icon,
+                    tooltip=f"<b>{region}</b><br>Платформа: {platform}<br>Кількість: {count}"
+                ).add_to(m)
 
-    # Відображаємо карту в Streamlit
-    st_folium(m, width=1000, height=500)
-    
-    st.info("💡 **Як читати карту:** Чим більший логотип, тим більше респондентів у цьому регіоні обрали цю платформу як основну.")
-    
+    # Відображення
+    st_folium(m, width="100%", height=550)
 
+    st.success("✅ Карта очищена від сторонніх написів. Тепер іконки — головний акцент.")
     
    
 
