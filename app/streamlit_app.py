@@ -326,16 +326,14 @@ elif page == "Глобальна географія":
     st.write("---")
 
 
-
-
     
     # import folium
     # from streamlit_folium import st_folium
     # import numpy as np
 
     st.write("---")
-    st.subheader("🌍 Чиста карта регіональних лідерів")
-    st.write("Використано підкладку без тексту, щоб фокусувати увагу на даних.")
+    st.subheader("🌍 Регіональні лідери платформ")
+    st.write("Яка платформа домінує на кожному континенті?")
 
     # 1. Словник логотипів (надійні посилання)
     platform_logos = {
@@ -344,7 +342,7 @@ elif page == "Глобальна географія":
         "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
     }
 
-    # Координати центрів (трохи підправлені для кращого вигляду)
+    # Координати центрів (підправлені для кращого вигляду)
     region_coords = {
         "Europe": [50, 15],
         "Asia": [35, 90],
@@ -358,7 +356,7 @@ elif page == "Глобальна географія":
     region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
     top_reg = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
 
-    # 3. Створення карти БЕЗ ТЕКСТУ (PositronNoLabels)
+    # 3. Створення карти (без тексту, (PositronNoLabels))
     m = folium.Map(
         location=[20, 0], 
         zoom_start=2, 
@@ -372,7 +370,7 @@ elif page == "Глобальна географія":
         platform = row['Most_Used_Platform']
         
         if region in region_coords:
-            # НОВА ФОРМУЛА РОЗМІРУ:
+            # ФОРМУЛА РОЗМІРУ:
             # Базовий розмір 45px + приріст на основі кореня від кількості
             # Це зробить малі значення (як у Пд. Америці) помітними
             icon_size = 40 + (np.sqrt(count) * 4) 
@@ -391,208 +389,13 @@ elif page == "Глобальна географія":
 
     # Відображення
     st_folium(m, width="100%", height=550)
-
-    st.success("✅ Карта очищена від сторонніх написів. Тепер іконки — головний акцент.")
-    
-   
-
-
-
-
-
-
-
-    
-    
-    st.subheader("🏆 Регіональні лідери платформ")
-    st.write("Яка платформа домінує на кожному континенті?")
-
-    # Готуємо дані (Варіант А з вашого аналізу)
-    region_platform_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='User_Count')
-    top_platform_per_region = region_platform_counts.loc[region_platform_counts.groupby('Region')['User_Count'].idxmax()]
-    
-    # Створюємо колонки для карток (по 3 в ряд)
-    rows = [st.columns(3), st.columns(3)]
-    regions = top_platform_per_region.sort_values('User_Count', ascending=False).to_dict('records')
-
-    for idx, reg in enumerate(regions):
-        col = rows[idx // 3][idx % 3]
-        with col:
-            st.metric(label=f"📍 {reg['Region']}", value=reg['Most_Used_Platform'])
-            st.caption(f"Користувачів: {reg['User_Count']}")
-
-    st.write("---")
-    
-    
-    
-    
-    st.write("---")
-    st.write("---")
-    st.subheader("🏆 Регіональні лідери платформ")
-    st.write("Яка платформа домінує на кожному континенті?")
-
-    # Вставляємо CSS для вирівнювання висоти карток
-    st.markdown("""
-        <style>
-        [data-testid="stVerticalBlockBorderControl"] {
-            height: 100%;
-            min-height: 200px; /* Мінімальна висота для стабільності */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # 1. Словник логотипів (використовуємо надійні посилання)
-    platform_icons = {
-        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
-        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
-        "WhatsApp": "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
-        "YouTube": "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
-        "Twitter": "https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg",
-        "LinkedIn": "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
-    }
-
-    # 2. Дані
-    region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
-    top_platforms = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
-    regions_list = top_platforms.sort_values('Count', ascending=False).to_dict('records')
-
-    # 3. Вивід у сітку
-    # Використовуємо цикл для створення колонок динамічно, щоб вони краще адаптувалися
-    cols = st.columns(3)
-    
-    for idx, reg in enumerate(regions_list):
-        with cols[idx % 3]:
-            with st.container(border=True):
-                st.markdown(f"#### 📍 {reg['Region']}")
-                
-                # Обгортка для логотипу, щоб він не займав забагато місця
-                logo_url = platform_icons.get(reg['Most_Used_Platform'], "")
-                if logo_url:
-                    st.image(logo_url, width=50)
-                
-                st.write(f"**{reg['Most_Used_Platform']}**")
-                st.caption(f"Відповідей: {reg['Count']}")
-
-    st.write("---")
-
-    st.write("---")
-
-
-
-    st.write("---")
-    st.subheader("🌍 Карта регіональних лідерів")
-    st.write("Кольори відображають макрорегіони, а підписи — найпопулярнішу платформу.")
-
-    # 1. Підготовка даних (Ваші результати Блоку 8)
-    # Створюємо словник координат центрів для підписів
-    region_centers = {
-        "Europe": {"lat": 48, "lon": 15},
-        "Asia": {"lat": 30, "lon": 100},
-        "North America": {"lat": 45, "lon": -105},
-        "South America": {"lat": -15, "lon": -60},
-        "Africa": {"lat": 5, "lon": 20},
-        "Oceania": {"lat": -25, "lon": 140}
-    }
-
-    # Знаходимо лідерів
-    reg_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
-    top_reg = reg_counts.loc[reg_counts.groupby('Region')['Count'].idxmax()].copy()
-    
-    # Додаємо координати для відображення назв
-    top_reg['lat'] = top_reg['Region'].map(lambda x: region_centers[x]['lat'])
-    top_reg['lon'] = top_reg['Region'].map(lambda x: region_centers[x]['lon'])
-    
-    # Додаємо емодзі для візуалізації замість логотипів (це працює стабільно всюди)
-    platform_emojis = {
-        "Instagram": "📸 Instagram",
-        "TikTok": "🎵 TikTok",
-        "Facebook": "🔵 Facebook"
-    }
-    top_reg['Label'] = top_reg['Most_Used_Platform'].map(platform_emojis)
-
-    # 2. Побудова карти
-    # Основний шар - кольори регіонів
-    fig_map = px.choropleth(
-        df,
-        locations="Country",
-        locationmode="country names",
-        color="Region",
-        color_discrete_sequence=px.colors.qualitative.Pastel,
-        projection="natural earth",
-        hover_data={"Country": True, "Region": False}
-    )
-
-    # Додаємо шар з підписами платформ
-    fig_map.add_scattergeo(
-        lat=top_reg['lat'],
-        lon=top_reg['lon'],
-        text=top_reg['Label'],
-        mode='text',
-        textfont=dict(size=14, color="black", family="Arial Black"),
-        showlegend=False
-    )
-
-    fig_map.update_layout(
-        height=600,
-        margin={"r":0,"t":0,"l":0,"b":0},
-        geo=dict(showcountries=True, countrycolor="white")
-    )
-
-    st.plotly_chart(fig_map, use_container_width=True)
     st.info("**Географічний розподіл:** Instagram домінує в більшості регіонів, тоді як TikTok та Facebook утримують лідерство в Південній Америці та Африці відповідно.")
 
 
 
-
-
-
-
-
-
-    st.write("---")
-    st.subheader("🌐 Регіональний огляд (Emoji-style / Custom Icons)")
-    st.write("Співвідношення макрорегіонів та їхніх цифрових фаворитів.")
-
-    # 1. Словник логотипів (надійні посилання)
-    platform_logos = {
-        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-        "TikTok": "https://upload.wikimedia.org/wikipedia/commons/a/a2/TikTok_Icon.svg",
-        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
-    }
-
-    # 2. Підготовка даних
-    region_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
-    top_platforms = region_counts.loc[region_counts.groupby('Region')['Count'].idxmax()]
-    # Сортуємо за кількістю, як на макеті
-    regions_list = top_platforms.sort_values('Count', ascending=False).to_dict('records')
-
-    # 3. Побудова списку в стилі Custom Icons
-    for reg in regions_list:
-        # Створюємо 3 колонки: Іконка Землі, Назва регіону, Логотип платформи
-        col_emoji, col_name, col_logo, col_stat = st.columns([1, 4, 1, 3])
-        
-        with col_emoji:
-            st.markdown("### 🌍") # Іконка планети
-            
-        with col_name:
-            st.markdown(f"#### {reg['Region']}")
-            
-        with col_logo:
-            logo_url = platform_logos.get(reg['Most_Used_Platform'], "")
-            if logo_url:
-                st.image(logo_url, width=35)
-                
-        with col_stat:
-            # Додаємо прогрес-бар для наочності (опціонально)
-            st.write(f"**{reg['Count']}** студ.")
-            st.progress(min(reg['Count'] / 120, 1.0)) # 120 - це наш максимум для масштабу
-
-    st.write("---")
-
+    # st.success("✅ Карта очищена від сторонніх написів. Тепер іконки — головний акцент.")
+    
+   
 
     
 
