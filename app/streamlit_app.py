@@ -517,38 +517,35 @@ elif page == "Глобальна географія":
 
 
 
-    import streamlit as st
-import pandas as pd
-
-# Дані
-data = {
-    "Region": ["Europe", "Asia", "North America", "Oceania", "South America", "Africa"],
-    "Most_Used_Platform": ["Instagram", "Instagram", "Instagram", "Instagram", "TikTok", "Facebook"],
-    "User_Count": [119, 76, 38, 12, 5, 1]
-}
-df = pd.DataFrame(data)
-
-# Emoji-словник
-emoji_map = {
-    "Instagram": "📸",
-    "TikTok": "🎵",
-    "Facebook": "👥"
-}
-
-# Вивід заголовку
-st.markdown("## 🌍 Популярність соцмереж по регіонах")
-
-# Вивід даних у вигляді emoji-рядків
-for i, row in df.iterrows():
-    region = row["Region"]
-    platform = row["Most_Used_Platform"]
-    count = row["User_Count"]
-    emoji = emoji_map.get(platform, "❓")
-    st.markdown(f"**{region}**: 🌍 {emoji} {platform} — **{count} млн користувачів**")
-
-# Додатково: горизонтальна лінія
-st.markdown("---")
-st.markdown("📊 Дані базуються на агрегованих оцінках використання соцмереж у регіонах.")
+    # Дані
+    data = {
+        "Region": ["Europe", "Asia", "North America", "Oceania", "South America", "Africa"],
+        "Most_Used_Platform": ["Instagram", "Instagram", "Instagram", "Instagram", "TikTok", "Facebook"],
+        "User_Count": [119, 76, 38, 12, 5, 1]
+    }
+    df = pd.DataFrame(data)
+    
+    # Emoji-словник
+    emoji_map = {
+        "Instagram": "📸",
+        "TikTok": "🎵",
+        "Facebook": "👥"
+    }
+    
+    # Вивід заголовку
+    st.markdown("## 🌍 Популярність соцмереж по регіонах")
+    
+    # Вивід даних у вигляді emoji-рядків
+    for i, row in df.iterrows():
+        region = row["Region"]
+        platform = row["Most_Used_Platform"]
+        count = row["User_Count"]
+        emoji = emoji_map.get(platform, "❓")
+        st.markdown(f"**{region}**: 🌍 {emoji} {platform} — **{count} млн користувачів**")
+    
+    # Додатково: горизонтальна лінія
+    st.markdown("---")
+    st.markdown("📊 Дані базуються на агрегованих оцінках використання соцмереж у регіонах.")
 
 
 
