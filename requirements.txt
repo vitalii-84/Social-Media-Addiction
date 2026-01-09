@@ -7,3 +7,5 @@ pycountry-convert
 matplotlib
 seaborn
 statsmodels
+folium
+streamlit-folium
