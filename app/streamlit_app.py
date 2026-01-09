@@ -353,12 +353,12 @@ elif page == "Глобальна географія":
     # 1. Повний словник логотипів усіх платформ з датасету
     platform_icons = {
         "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
+        "TikTok": "https://upload.wikimedia.org/wikipedia/commons/a/a2/TikTok_Icon.svg", # Покращена іконка
         "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
         "WhatsApp": "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
         "YouTube": "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
-        "Twitter": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg",
-        "LinkedIn": "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
+        "Twitter": "https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg", # Логотип X (Twitter)
+        "LinkedIn": "https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg", # Покращена іконка
         "Snapchat": "https://upload.wikimedia.org/wikipedia/en/a/ad/Snapchat_logo.svg",
         "WeChat": "https://upload.wikimedia.org/wikipedia/commons/7/73/WeChat_logo.svg",
         "LINE": "https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg",
