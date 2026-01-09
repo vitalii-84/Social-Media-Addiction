@@ -393,6 +393,83 @@ elif page == "Глобальна географія":
 
 
 
+
+
+
+
+st.write("---")
+    st.subheader("🌍 Карта регіональних чемпіонів")
+    st.write("Логотип показує найпопулярнішу платформу в кожному макрорегіоні.")
+
+    # 1. Створюємо координати для центрів регіонів
+    region_centers = {
+        "Europe": {"lat": 50, "lon": 15},
+        "Asia": {"lat": 35, "lon": 90},
+        "North America": {"lat": 40, "lon": -100},
+        "South America": {"lat": -15, "lon": -60},
+        "Africa": {"lat": 0, "lon": 20},
+        "Oceania": {"lat": -25, "lon": 135}
+    }
+
+    # 2. Посилання на логотипи
+    platform_icons = {
+        "Instagram": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+        "TikTok": "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg",
+        "Facebook": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"
+    }
+
+    # 3. Підготовка даних
+    reg_counts = df.groupby(['Region', 'Most_Used_Platform']).size().reset_index(name='Count')
+    top_reg = reg_counts.loc[reg_counts.groupby('Region')['Count'].idxmax()].copy()
+    
+    # Додаємо координати та іконки до таблиці
+    top_reg['lat'] = top_reg['Region'].map(lambda x: region_centers[x]['lat'])
+    top_reg['lon'] = top_reg['Region'].map(lambda x: region_centers[x]['lon'])
+    top_reg['icon'] = top_reg['Most_Used_Platform'].map(platform_icons)
+
+    # 4. Побудова карти
+    # Фоновий шар: зафарбовуємо країни за регіоном
+    fig_leaders = px.choropleth(
+        df, 
+        locations="Country", 
+        locationmode="country names",
+        color="Region",
+        color_discrete_sequence=px.colors.qualitative.Pastel,
+        hover_data={"Country": False} # Вимикаємо зайвий ховер
+    )
+
+    # Шар з логотипами (використовуємо символи/маркери)
+    for i, row in top_reg.iterrows():
+        fig_leaders.add_layout_image(
+            dict(
+                source=row['icon'],
+                xref="geo", yref="geo",
+                x=row['lon'], y=row['lat'],
+                sizex=20, sizey=20, # Розмір логотипа на карті
+                xanchor="center", yanchor="middle"
+            )
+        )
+
+    fig_leaders.update_geos(
+        projection_type="natural earth",
+        showcountries=True,
+        countrycolor="white"
+    )
+
+    fig_leaders.update_layout(
+        height=600,
+        margin={"r":0,"t":0,"l":0,"b":0},
+        showlegend=False
+    )
+
+    st.plotly_chart(fig_leaders, use_container_width=True)
+    st.info("**Інсайт:** Карта демонструє тотальне домінування Instagram, окрім Південної Америки (TikTok) та Африки (Facebook).")
+
+
+
+
+    
+
     
 
     # Візуалізація "Ядро платформ" (Теплова карта)
