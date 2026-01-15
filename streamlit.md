@@ -59,7 +59,7 @@ students-social-media-addiction/
 ├── requirements.txt        # Перелік залежностей для середовища Streamlit
 ├── README.md               # Презентація проєкту
 └── PROJECT_PLAN.md         # Дорожня карта (цей файл)
-
+```
 
 авпап
 
