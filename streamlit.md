@@ -61,8 +61,24 @@ students-social-media-addiction/
 └── PROJECT_PLAN.md         # Дорожня карта (цей файл)
 ```
 
-авпап
+
 
 ---
 
-## 📂 Структура репозиторію
+## 🚀 Як запустити локально
+
+### 1. Клонуйте репозиторій
+```bash
+git clone https://github.com/vitalii-84/Social-Media-Addiction.git
+```
+
+
+### 2. Встановіть залежності
+
+pip install -r requirements.txt
+
+
+
+
+
+
