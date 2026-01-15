@@ -90,9 +90,8 @@ streamlit run app/streamlit_app.py
 ## 📊 Джерело даних
 [Kaggle: Social Media Addiction Dataset](https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships)
 
-
-
-   📖 [Читати повний аналіз тут](STORYTELLING.md)
+---
+## 📖 [Читати повний аналіз тут](STORYTELLING.md)
 
 
 
