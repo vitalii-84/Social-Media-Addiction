@@ -79,3 +79,9 @@ https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationsh
 (через тег `![Опис](шлях/до/фото.png)`)
 
 ![Опис](visuals/Hypothesis_3.png)
+
+фі
+
+
+
+<img src="visuals/Hypothesis_3.png" width="600" alt="Гіпотеза 3">
