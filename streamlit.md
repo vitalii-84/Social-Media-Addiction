@@ -92,7 +92,7 @@ streamlit run app/streamlit_app.py
 
 
 
-   📖 [Читати повний аналіз історії даних тут](STORYTELLING.md)
+   📖 [Читати повний аналіз тут](STORYTELLING.md)
 
 
 
