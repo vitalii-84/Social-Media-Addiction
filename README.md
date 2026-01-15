@@ -106,7 +106,7 @@ streamlit run app/streamlit_app.py
 
 ---
 ## 📖 [Читати повний аналіз тут](STORYTELLING.md)
+---
 
-## Jupyter notebook
-[Jupyter notebook](https://www.datacamp.com/datalab/w/596a2147-bd98-4873-aeda-bb0d35e2f16c/edit)
+## [Jupyter notebook](https://www.datacamp.com/datalab/w/596a2147-bd98-4873-aeda-bb0d35e2f16c/edit)
 
