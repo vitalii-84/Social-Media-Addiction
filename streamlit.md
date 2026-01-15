@@ -2,7 +2,6 @@
 
 [![Streamlit](https://img.shields.io/badge/Framework-Streamlit-FF4B4B?logo=streamlit)](https://streamlit.io/)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Kaggle Dataset](https://img.shields.io/badge/Data-Kaggle-orange?logo=kaggle)](https://www.kaggle.com/)
 
 Інтерактивний дашборд для аналізу впливу соціальних мереж на життя студентів (16–25 років).  
@@ -39,3 +38,29 @@
 ---
 
 ## 📂 Структура репозиторію
+
+```text
+students-social-media-addiction/
+├── data/
+│   ├── raw/                # Вихідний набір даних (Students Social Media Addiction.csv)
+│   └── processed/          # Очищений та збагачений набір (cleaned_data.csv)
+│
+├── notebooks/              # Покрокове дослідження в DataLab
+│   └── full_analysis.ipynb
+│
+├── app/
+│   └── streamlit_app.py     # Основний код інтерактивного додатка
+│
+├── visuals/                # Статичні графіки для звіту та документації (поки що пуста папка)
+│   ├── 
+│   ├── 
+│   └── 
+│
+├── requirements.txt        # Перелік залежностей для середовища Streamlit
+├── README.md               # Презентація проєкту
+└── PROJECT_PLAN.md         # Дорожня карта (цей файл)
+
+
+
+
+
