@@ -84,4 +84,4 @@ https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationsh
 
 
 
-<img src="visuals/Hypothesis_3.png" width="600" alt="Гіпотеза 3">
+<img src="visuals/Hypothesis_3.png" width="800" alt="Гіпотеза 3">
