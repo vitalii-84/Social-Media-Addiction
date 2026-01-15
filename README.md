@@ -1,5 +1,5 @@
 # Students' Social Media Addiction
-A Cross-Country Survey of Usage Patterns, Academic Impact, and Relationship
+Міжнаціональне опитування щодо моделей використання соціальних мереж, їх впливу на навчання та відносини в сім'ї.
 
 https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships
 
