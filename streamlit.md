@@ -61,6 +61,8 @@ students-social-media-addiction/
 └── PROJECT_PLAN.md         # Дорожня карта (цей файл)
 
 
+авпап
 
+---
 
-
+## 📂 Структура репозиторію
