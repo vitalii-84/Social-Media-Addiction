@@ -74,3 +74,5 @@ https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationsh
 - `visualizations/` - графіки для звіту.
 - `app.py` - код Streamlit.
 - `requirements.txt` - залежності проекту.
+
+іва
