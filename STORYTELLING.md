@@ -1,3 +1,12 @@
+[![Storytelling Report](https://img.shields.io/badge/Report-Storytelling-blueviolet)]()
+[![Data Analysis](https://img.shields.io/badge/Focus-Data%20Analysis-009688)]()
+[![Machine Learning](https://img.shields.io/badge/ML-KMeans-orange)]()
+[![Visualization](https://img.shields.io/badge/Charts-Plotly%20%7C%20Seaborn-1E90FF)]()
+[![Global Dataset](https://img.shields.io/badge/Dataset-700%2B%20Students-green)]()
+[![Year](https://img.shields.io/badge/Study-2026-lightgrey)]()
+
+
+
 # 📖 Цифрові кайдани: Історія одного дослідження
 ### Storytelling аналіз проекту *"Students' Social Media Addiction"*
 
@@ -56,11 +65,3 @@
 > Баланс між "онлайн" та "офлайн" — це не розкіш, а необхідна умова збереження ментального здоров'я в **2026 році**.
 
 ---
-
-## 📌 Як це використати?
-1. Створіть файл **`STORYTELLING.md`** у своєму репозиторії.  
-2. Вставте туди цей текст.  
-3. Додайте посилання на цей файл у вашому основному `README.md`:  
-   ```markdown
-   📖 [Читати повний аналіз історії даних тут](STORYTELLING.md)
-
