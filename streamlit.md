@@ -33,6 +33,8 @@
 ## 🔍 Головні інсайти
 - 📸 **Гегемонія Instagram**: Платформа є лідером у 4 з 6 регіонів.
 ![Гегемонія Instagram](visuals/Insta.png)
+
+<img src="visuals/Insta.png" width="800" alt="Гегемонія Instagram">
  
 - 🎵 **Алгоритмічна пастка**: Користувачі TikTok та Instagram мають найвищу залежність.
 ![Алгоритмічна пастка](visuals/Hypothesis_3.png)
