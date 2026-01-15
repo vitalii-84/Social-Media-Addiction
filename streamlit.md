@@ -32,7 +32,6 @@
 
 ## 🔍 Головні інсайти
 - 📸 **Гегемонія Instagram**: Платформа є лідером у 4 з 6 регіонів.
-![Гегемонія Instagram](visuals/Insta.png)
 
 <img src="visuals/Insta.png" width="800" alt="Гегемонія Instagram">
  
@@ -58,10 +57,9 @@ students-social-media-addiction/
 ├── app/
 │   └── streamlit_app.py     # Основний код інтерактивного додатка
 │
-├── visuals/                # Статичні графіки для звіту та документації (поки що пуста папка)
-│   ├── 
-│   ├── 
-│   └── 
+├── visuals/                # Статичні графіки для звіту та документації
+│   ├──  
+│   └──
 │
 ├── requirements.txt        # Перелік залежностей для середовища Streamlit
 ├── README.md               # Презентація проєкту
