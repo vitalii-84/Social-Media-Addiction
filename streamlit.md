@@ -61,8 +61,6 @@ students-social-media-addiction/
 └── PROJECT_PLAN.md         # Дорожня карта (цей файл)
 ```
 
-
-
 ---
 
 ## 🚀 Як запустити локально
@@ -71,7 +69,6 @@ students-social-media-addiction/
 ```bash
 git clone https://github.com/vitalii-84/Social-Media-Addiction.git
 ```
-
 
 ### 2. Встановіть залежності
 ```bash
@@ -83,9 +80,10 @@ pip install -r requirements.txt
 streamlit run app/streamlit_app.py
 ```
 
+---
 
 ## 📊 Джерело даних
-Kaggle: Social Media Addiction Dataset(https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships)
+[Kaggle: Social Media Addiction Dataset](https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships)
 
 
 
