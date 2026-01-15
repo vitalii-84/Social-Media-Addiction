@@ -91,7 +91,7 @@ streamlit run app/streamlit_app.py
 [Kaggle: Social Media Addiction Dataset](https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationships)
 
 
- ```markdown
+
    📖 [Читати повний аналіз історії даних тут](STORYTELLING.md)
 
 
