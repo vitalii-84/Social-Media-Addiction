@@ -76,3 +76,6 @@ https://www.kaggle.com/datasets/adilshamim8/social-media-addiction-vs-relationsh
 - `requirements.txt` - залежності проекту.
 
 іва
+(через тег `![Опис](шлях/до/фото.png)`)
+
+`![Опис](visuals/Hypothesis_3.png)`
