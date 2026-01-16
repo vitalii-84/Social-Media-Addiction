@@ -22,6 +22,8 @@ def load_data():
 df = load_data()
 
 # --- БОКОВА ПАНЕЛЬ (SIDEBAR) ---
+# 1. Зображення на самому початку (вгорі)
+st.sidebar.image("visuals/main_logo.jpg", use_container_width=True)
 st.sidebar.title("🛠 Навігація")
 page = st.sidebar.radio(
     "Оберіть розділ проєкту:",
