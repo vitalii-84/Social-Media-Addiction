@@ -529,5 +529,5 @@ elif page == "Аналітичний звіт":
             # unsafe_allow_html=True потрібен, якщо у вашому MD є HTML-теги (наприклад, для центрування картинок)
             st.markdown(story_content, unsafe_allow_html=True)
             
-        except FileNotFoundError:
-            st.error("Файл STORYTELLING.md не знайдено. Переконайтеся, що він лежить у корені проекту.")
+    except FileNotFoundError:
+        st.error("Файл STORYTELLING.md не знайдено. Переконайтеся, що він лежить у корені проекту.")
