@@ -25,7 +25,7 @@ df = load_data()
 st.sidebar.title("🛠 Навігація")
 page = st.sidebar.radio(
     "Оберіть розділ проєкту:",
-    ["Головна", "Аналіз гіпотез", "Глобальна географія", "ML Діагностика"]
+    ["Головна", "Аналіз гіпотез", "Глобальна географія", "ML Діагностика", "Аналітичний звіт"]
 )
 
 st.sidebar.markdown("---")
@@ -516,3 +516,18 @@ elif page == "ML Діагностика":
                 st.success("🟢 **Ваш профіль: Збалансований користувач**")
                 st.balloons()
                 st.write("Ваші показники відповідають групі 'Low Addiction'.")
+
+
+
+elif page == "Аналітичний звіт"
+    try:
+            # Відкриваємо та читаємо файл
+            with open("STORYTELLING.md", "r", encoding="utf-8") as f:
+                story_content = f.read()
+            
+            # Відображаємо вміст
+            # unsafe_allow_html=True потрібен, якщо у вашому MD є HTML-теги (наприклад, для центрування картинок)
+            st.markdown(story_content, unsafe_allow_html=True)
+            
+        except FileNotFoundError:
+            st.error("Файл STORYTELLING.md не знайдено. Переконайтеся, що він лежить у корені проекту.")
