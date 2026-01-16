@@ -62,7 +62,7 @@ elif page == "Аналіз гіпотез":
     st.write("У цьому розділі ми перевіряємо статистичні припущення про вплив соцмереж на життя студентів.")
 
     # Створюємо закладки для різних груп гіпотез
-    tab1, tab2, tab3 = st.tabs(["🏥 Здоров'я та Психіка", "📱 Платформи", "🤝 Соціальні зв'язки"])
+    tab1, tab2, tab3, tab4 = st.tabs(["🏥 Здоров'я та Психіка", "📱 Платформи", "🤝 Соціальні зв'язки", "📖 Storytelling"])
     level_order = {"Addiction_Level": ["Low", "Medium", "High"]}
 
     with tab1:
@@ -260,6 +260,23 @@ elif page == "Аналіз гіпотез":
         )
         st.plotly_chart(fig5, width='stretch')
         st.success("**Вердикт:** Гіпотеза підтверджена — висока цифрова залежність статистично корелює зі зниженням академічної успішності.")
+
+    
+
+    with tab4:
+        st.header("📖 Аналітичний звіт: Storytelling")
+        
+        try:
+            # Відкриваємо та читаємо файл
+            with open("STORYTELLING.md", "r", encoding="utf-8") as f:
+                story_content = f.read()
+            
+            # Відображаємо вміст
+            # unsafe_allow_html=True потрібен, якщо у вашому MD є HTML-теги (наприклад, для центрування картинок)
+            st.markdown(story_content, unsafe_allow_html=True)
+            
+        except FileNotFoundError:
+            st.error("Файл STORYTELLING.md не знайдено. Переконайтеся, що він лежить у корені проекту.")
 
 
 elif page == "Глобальна географія":
