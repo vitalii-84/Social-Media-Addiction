@@ -519,7 +519,7 @@ elif page == "ML Діагностика":
 
 
 
-elif page == "Аналітичний звіт"
+elif page == "Аналітичний звіт":
     try:
             # Відкриваємо та читаємо файл
             with open("STORYTELLING.md", "r", encoding="utf-8") as f:
